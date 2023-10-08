@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import dagger.Binds
 import dagger.Component
+import dagger.MapKey
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
@@ -15,8 +16,10 @@ import kotlin.reflect.KClass
 @MustBeDocumented
 @Target(AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.RUNTIME)
+@MapKey
 internal annotation class ViewModelKey(val value: KClass<out ViewModel>)
 
+@Singleton
 @Component(modules = [ApplicationModule::class, ViewModelModule::class])
 interface ApplicationComponent {
 
@@ -40,5 +43,5 @@ abstract class ViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(FoodListViewModel::class)
-    abstract fun foodListViewModel(viewModel: FoodListViewModel): FoodListViewModel
+    abstract fun foodListViewModel(viewModel: FoodListViewModel): ViewModel
 }
