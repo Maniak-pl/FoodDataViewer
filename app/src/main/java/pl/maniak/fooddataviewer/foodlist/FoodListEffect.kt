@@ -1,3 +1,5 @@
 package pl.maniak.fooddataviewer.foodlist
 
-object FoodListEffect
+sealed class FoodListEffect
+
+object NavigateToScanner : FoodListEffect()

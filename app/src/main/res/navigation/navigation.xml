@@ -2,9 +2,18 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/navigation"
-    app:startDestination="@id/FoodListFragment">
+    app:startDestination="@id/foodListFragment">
 
     <fragment
-        android:id="@+id/FoodListFragment"
-        android:name="pl.maniak.fooddataviewer.foodlist.FoodListFragment" />
+        android:id="@+id/foodListFragment"
+        android:name="pl.maniak.fooddataviewer.foodlist.FoodListFragment">
+
+        <action
+            android:id="@+id/scan"
+            app:destination="@id/scanFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/scanFragment"
+        android:name="pl.maniak.fooddataviewer.scan.ScanFragment" />
 </navigation>
