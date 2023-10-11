@@ -54,6 +54,8 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0"
 
     implementation 'io.fotoapparat:fotoapparat:2.7.0'
+    implementation 'com.google.firebase:firebase-ml-vision:24.0.0'
+
 
     implementation "com.google.dagger:dagger:2.43.1"
     kapt "com.google.dagger:dagger-compiler:2.23.1"
@@ -62,3 +64,5 @@ dependencies {
     androidTestImplementation "androidx.test:runner:1.5.2"
     androidTestImplementation "androidx.test.espresso:espresso-core:3.5.1"
 }
+
+apply plugin: 'com.google.gms.google-services'
