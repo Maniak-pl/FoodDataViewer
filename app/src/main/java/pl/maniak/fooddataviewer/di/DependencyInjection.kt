@@ -10,6 +10,7 @@ import dagger.Provides
 import dagger.multibindings.IntoMap
 import pl.maniak.fooddataviewer.R
 import pl.maniak.fooddataviewer.foodlist.FoodListViewModel
+import pl.maniak.fooddataviewer.scan.ScanViewModel
 import pl.maniak.fooddataviewer.utils.ActivityService
 import pl.maniak.fooddataviewer.utils.Navigator
 import javax.inject.Provider
@@ -61,4 +62,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(FoodListViewModel::class)
     abstract fun foodListViewModel(viewModel: FoodListViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ScanViewModel::class)
+    abstract fun scanViewModel(viewModel: ScanViewModel): ViewModel
 }
