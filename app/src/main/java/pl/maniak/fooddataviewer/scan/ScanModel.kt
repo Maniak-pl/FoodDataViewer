@@ -1,3 +1,5 @@
 package pl.maniak.fooddataviewer.scan
 
-object ScanModel
+data class ScanModel(
+    val activity: Boolean = false
+)
