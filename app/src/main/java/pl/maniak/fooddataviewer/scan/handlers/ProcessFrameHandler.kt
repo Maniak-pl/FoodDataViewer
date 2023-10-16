@@ -32,7 +32,7 @@ class ProcessFrameHandler @Inject constructor() : ObservableTransformer<ProcessC
                     .build()
                 val image = FirebaseVisionImage.fromByteArray(effect.frame.image, metadata)
                 val detector = FirebaseVision.getInstance()
-                    .visionBarcodeDetector
+                    .getVisionBarcodeDetector(option)
                 detector.detectInImage(image)
                     .addOnSuccessListener { barcodes ->
                         if (barcodes.isNotEmpty()) {
