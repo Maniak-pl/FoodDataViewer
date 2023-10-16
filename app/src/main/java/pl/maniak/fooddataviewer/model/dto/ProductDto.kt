@@ -9,4 +9,5 @@ data class ProductDto(
     val brands: String,
     val image_url: String,
     val ingridients_text_debug: String?,
+    val nutriments: NutrimentsDto?,
 )

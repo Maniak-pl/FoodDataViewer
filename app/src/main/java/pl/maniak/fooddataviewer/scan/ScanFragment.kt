@@ -14,8 +14,10 @@ import android.util.Log
 import android.util.SparseIntArray
 import android.view.Surface
 import android.view.View
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.google.android.gms.vision.L.TAG
 import com.google.firebase.ml.vision.common.FirebaseVisionImageMetadata
@@ -31,6 +33,7 @@ import io.reactivex.ObservableEmitter
 import io.reactivex.ObservableOnSubscribe
 import io.reactivex.disposables.Disposable
 import pl.maniak.fooddataviewer.R
+import pl.maniak.fooddataviewer.getViewModel
 
 class ScanFragment : Fragment(R.layout.scan_fragment) {
 
@@ -51,7 +54,7 @@ class ScanFragment : Fragment(R.layout.scan_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val cameraView = view.findViewById<CameraView>(R.id.camera_view)
+        val cameraView = view.findViewById<CameraView>(R.id.cameraView)
         val frameProcessor = FrameProcessorOnSubscribe()
 
         fotoapparat = Fotoapparat(
@@ -65,18 +68,44 @@ class ScanFragment : Fragment(R.layout.scan_fragment) {
         )
 
         val cameraId = findRearFacingCameraId()
+        val loadingIndicator = view.findViewById<View>(R.id.loadingIndicator)
+        val productView = view.findViewById<View>(R.id.productView)
+        val errorView = view.findViewById<View>(R.id.errorView)
+        val productNameView = view.findViewById<TextView>(R.id.productNameView)
+        val brandNameView = view.findViewById<TextView>(R.id.brandNameView)
+        val energyValueView = view.findViewById<TextView>(R.id.energyValueView)
+        val carbsValueView = view.findViewById<TextView>(R.id.carbsValueView)
+        val fatValueView = view.findViewById<TextView>(R.id.fatValueView)
+        val proteinValueView = view.findViewById<TextView>(R.id.proteinValueView)
 
         disposable = Observable.create(frameProcessor)
             .map { frame ->
-                frame.copy(
-                    rotation = getRotationCompensation(
-                        cameraId,
-                        this.activity as Activity,
-                        this.requireContext()
+                Captured(
+                    frame.copy(
+                        rotation = getRotationCompensation(
+                            cameraId,
+                            this.activity as Activity,
+                            this.requireContext()
+                        )
                     )
                 )
+
             }
-            .subscribe()
+            .compose(getViewModel(ScanViewModel::class))
+            .subscribe { model ->
+                loadingIndicator.isVisible = model.activity
+                productView.isVisible = model.processBarcodeResult is ProcessBarcodeResult.ProductLoaded
+                errorView.isVisible = model.processBarcodeResult is ProcessBarcodeResult.Error
+
+                if (model.processBarcodeResult is ProcessBarcodeResult.ProductLoaded) {
+                    productNameView.text = model.processBarcodeResult.product.name
+                    brandNameView.text = model.processBarcodeResult.product.brands
+                    energyValueView.text = getString(R.string.scan_energy_value, model.processBarcodeResult.product.nutriments?.energy)
+                    carbsValueView.text = getString(R.string.scan_macro_value, model.processBarcodeResult.product.nutriments?.carbohydrates)
+                    fatValueView.text = getString(R.string.scan_macro_value, model.processBarcodeResult.product.nutriments?.fat)
+                    proteinValueView.text = getString(R.string.scan_macro_value, model.processBarcodeResult.product.nutriments?.proteins)
+                }
+            }
     }
 
     override fun onStart() {
