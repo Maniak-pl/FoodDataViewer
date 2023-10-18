@@ -14,13 +14,16 @@ import android.util.Log
 import android.util.SparseIntArray
 import android.view.Surface
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import com.google.android.gms.vision.L.TAG
 import com.google.firebase.ml.vision.common.FirebaseVisionImageMetadata
+import com.jakewharton.rxbinding3.view.clicks
 import io.fotoapparat.Fotoapparat
 import io.fotoapparat.configuration.CameraConfiguration
 import io.fotoapparat.preview.Frame
@@ -77,20 +80,24 @@ class ScanFragment : Fragment(R.layout.scan_fragment) {
         val carbsValueView = view.findViewById<TextView>(R.id.carbsValueView)
         val fatValueView = view.findViewById<TextView>(R.id.fatValueView)
         val proteinValueView = view.findViewById<TextView>(R.id.proteinValueView)
+        val productImageView = view.findViewById<ImageView>(R.id.productImageView)
 
-        disposable = Observable.create(frameProcessor)
-            .map { frame ->
-                Captured(
-                    frame.copy(
-                        rotation = getRotationCompensation(
-                            cameraId,
-                            this.activity as Activity,
-                            this.requireContext()
+        disposable = Observable.mergeArray(
+            Observable.create(frameProcessor)
+                .map { frame ->
+                    Captured(
+                        frame.copy(
+                            rotation = getRotationCompensation(
+                                cameraId,
+                                this.activity as Activity,
+                                this.requireContext()
+                            )
                         )
                     )
-                )
 
-            }
+                },
+            productView.clicks().map { ProductInfoClicked },
+        )
             .compose(getViewModel(ScanViewModel::class))
             .subscribe { model ->
                 loadingIndicator.isVisible = model.activity
@@ -104,6 +111,11 @@ class ScanFragment : Fragment(R.layout.scan_fragment) {
                     carbsValueView.text = getString(R.string.scan_macro_value, model.processBarcodeResult.product.nutriments?.carbohydrates)
                     fatValueView.text = getString(R.string.scan_macro_value, model.processBarcodeResult.product.nutriments?.fat)
                     proteinValueView.text = getString(R.string.scan_macro_value, model.processBarcodeResult.product.nutriments?.proteins)
+
+                    Glide.with(requireContext())
+                        .load(model.processBarcodeResult.product.imageUrl)
+                        .fitCenter()
+                        .into(productImageView)
                 }
             }
     }
