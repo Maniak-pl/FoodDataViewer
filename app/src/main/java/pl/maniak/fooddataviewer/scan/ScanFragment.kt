@@ -14,6 +14,7 @@ import android.util.Log
 import android.util.SparseIntArray
 import android.view.Surface
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
@@ -81,6 +82,7 @@ class ScanFragment : Fragment(R.layout.scan_fragment) {
         val fatValueView = view.findViewById<TextView>(R.id.fatValueView)
         val proteinValueView = view.findViewById<TextView>(R.id.proteinValueView)
         val productImageView = view.findViewById<ImageView>(R.id.productImageView)
+        val testDetectionButton = view.findViewById<Button>(R.id.testDetectionButton)
 
         disposable = Observable.mergeArray(
             Observable.create(frameProcessor)
@@ -97,6 +99,7 @@ class ScanFragment : Fragment(R.layout.scan_fragment) {
 
                 },
             productView.clicks().map { ProductInfoClicked },
+            testDetectionButton.clicks().map { Detected("8888002076009") }
         )
             .compose(getViewModel(ScanViewModel::class))
             .subscribe { model ->

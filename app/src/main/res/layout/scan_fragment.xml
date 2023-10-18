@@ -50,4 +50,13 @@
         android:layout_gravity="bottom"
         app:layout_dodgeInsetEdges="bottom" />
 
+    <Button
+        android:id="@+id/testDetectionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Test Detection"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"/>
+
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
