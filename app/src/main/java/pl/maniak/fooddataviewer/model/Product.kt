@@ -6,6 +6,6 @@ data class Product(
     val name: String,
     val brands: String,
     val imageUrl: String,
-    val ingredients: String?,
+    val ingredients: String,
     val nutriments: Nutriments?,
 )
