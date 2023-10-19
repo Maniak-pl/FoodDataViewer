@@ -19,6 +19,8 @@ This project uses the following dependencies
 - [Dagger](https://developer.android.com/training/dependency-injection/dagger-android)
 - [RxJava](https://github.com/ReactiveX/RxJava)
 - [RxAndroid](https://github.com/ReactiveX/RxAndroid)
+- [Fotoapparat](https://github.com/RedApparat/Fotoapparat)
+- [Firebase ML Kit](https://firebase.google.com/docs/ml-kit)
 - [Glide](https://github.com/bumptech/glide)
 - [Room](https://developer.android.com/training/data-storage/room)
 - [Junit4](https://github.com/junit-team/junit4)
