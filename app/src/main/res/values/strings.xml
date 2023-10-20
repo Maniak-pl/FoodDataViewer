@@ -10,4 +10,14 @@
     <string name="scan_energy_value">%1$d kcal</string>
     <string name="scan_macro_value">%1$.1fg</string>
 
+    <string name="food_details_save">save</string>
+    <string name="food_details_delete">Delete</string>
+    <string name="food_details_carbs">Carbs:</string>
+    <string name="food_details_protein">Protein:</string>
+    <string name="food_details_fat">Fat:</string>
+    <string name="food_details_energy">Energy:</string>
+    <string name="food_details_energy_value">%1$d kcal</string>
+    <string name="food_details_macro_value">%1$.1fg</string>
+    <string name="food_details_ingridients">Ingridients: %1$s</string>
+
 </resources>
