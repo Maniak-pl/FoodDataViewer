@@ -8,6 +8,7 @@ import dagger.multibindings.IntoMap
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import pl.maniak.fooddataviewer.R
+import pl.maniak.fooddataviewer.fooddetails.FoodDetailsViewModel
 import pl.maniak.fooddataviewer.foodlist.FoodListViewModel
 import pl.maniak.fooddataviewer.model.ProductService
 import pl.maniak.fooddataviewer.scan.ScanViewModel
@@ -90,6 +91,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(ScanViewModel::class)
     abstract fun scanViewModel(viewModel: ScanViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(FoodDetailsViewModel::class)
+    abstract fun foodDetailsViewModel(viewModel: FoodDetailsViewModel): ViewModel
 }
 
 @Module
