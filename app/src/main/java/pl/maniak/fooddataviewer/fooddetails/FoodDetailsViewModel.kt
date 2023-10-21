@@ -13,7 +13,12 @@ fun foodDetailsUpdate(
     event: FoodDetailsEvent
 ): Next<FoodDetailsModel, FoodDetailsEffect> {
     return when (event) {
-
+        is Initial -> {
+            next(
+                model.copy(activity = true),
+                setOf(LoadProduct(event.barcode))
+            )
+        }
         else -> {
             next(model.copy(activity = false))
         }
