@@ -3,6 +3,7 @@ package pl.maniak.fooddataviewer.di
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.room.Room
 import dagger.*
 import dagger.multibindings.IntoMap
 import okhttp3.OkHttpClient
@@ -11,6 +12,7 @@ import pl.maniak.fooddataviewer.R
 import pl.maniak.fooddataviewer.fooddetails.FoodDetailsViewModel
 import pl.maniak.fooddataviewer.foodlist.FoodListViewModel
 import pl.maniak.fooddataviewer.model.ProductService
+import pl.maniak.fooddataviewer.model.database.ApplicationDatabase
 import pl.maniak.fooddataviewer.scan.ScanViewModel
 import pl.maniak.fooddataviewer.utils.ActivityService
 import pl.maniak.fooddataviewer.utils.Navigator
@@ -34,7 +36,7 @@ internal annotation class ViewModelKey(val value: KClass<out ViewModel>)
 internal annotation class ApiBaseUrl
 
 @Singleton
-@Component(modules = [ApplicationModule::class, ViewModelModule::class, ApiModule::class])
+@Component(modules = [ApplicationModule::class, ViewModelModule::class, ApiModule::class, DatabaseModule::class])
 interface ApplicationComponent {
 
     fun viewModelFactory(): ViewModelProvider.Factory
@@ -127,4 +129,24 @@ object ApiModule {
     fun productService(retrofit: Retrofit): ProductService {
         return retrofit.create(ProductService::class.java)
     }
+}
+
+@Module
+object DatabaseModule {
+
+    @Provides
+    @Singleton
+    @JvmStatic
+    fun applicationDatabase(context: Context): ApplicationDatabase {
+        return Room.databaseBuilder(
+            context,
+            ApplicationDatabase::class.java,
+            "food-database"
+        ).build()
+    }
+
+    @Provides
+    @Singleton
+    @JvmStatic
+    fun productDao(applicationDatabase: ApplicationDatabase) = applicationDatabase.productDao()
 }
