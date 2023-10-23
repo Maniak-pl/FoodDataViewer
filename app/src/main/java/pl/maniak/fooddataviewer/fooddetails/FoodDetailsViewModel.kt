@@ -21,7 +21,7 @@ fun foodDetailsUpdate(
             if (model.product.saved) {
                 dispatch(setOf(DeleteProduct(model.product.id)))
             } else {
-                dispatch(setOf(SaveProduct(model.product.id)))
+                dispatch(setOf(SaveProduct(model.product)))
             }
         } else {
             noChange()
@@ -44,6 +44,22 @@ class FoodDetailsViewModel @Inject constructor(
                     .toObservable()
                     .map { product -> ProductLoaded(product) as FoodDetailsEvent }
                     .onErrorReturn { ErrorLoadingProduct }
+            }
+        }
+        .addTransformer(SaveProduct::class.java) { upstream ->
+            upstream.switchMap { effect ->
+                productRepository.saveProduct(effect.product)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .toObservable<FoodDetailsEvent>()
+            }
+        }
+        .addTransformer(DeleteProduct::class.java) { upstream ->
+            upstream.switchMap { effect ->
+                productRepository.deleteProduct(effect.barcode)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .toObservable<FoodDetailsEvent>()
             }
         }
         .build()

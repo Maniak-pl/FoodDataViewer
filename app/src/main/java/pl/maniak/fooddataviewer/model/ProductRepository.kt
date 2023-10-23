@@ -1,5 +1,6 @@
 package pl.maniak.fooddataviewer.model
 
+import io.reactivex.Completable
 import io.reactivex.Single
 import pl.maniak.fooddataviewer.model.database.ProductDao
 import pl.maniak.fooddataviewer.model.dto.NutrimentsDto
@@ -25,6 +26,15 @@ class ProductRepository @Inject constructor(
         return productService.getProduct(barcode)
             .map { response -> mapProduct(dto = response.product, saved = false) }
     }
+
+    fun saveProduct(product: Product): Completable {
+        return Single.fromCallable { mapProductDto(product) }
+            .flatMapCompletable { productDto -> productDao.insert(productDto) }
+    }
+
+    fun deleteProduct(barcode: String): Completable {
+        return productDao.delete(barcode)
+    }
 }
 
 fun mapProduct(dto: ProductDto, saved: Boolean): Product {
@@ -49,5 +59,29 @@ fun mapNutriments(dto: NutrimentsDto?): Nutriments? {
         sugars = dto.sugars_100g,
         proteins = dto.proteins_100g,
         fat = dto.fat_100g
+    )
+}
+
+private fun mapProductDto(product: Product): ProductDto {
+    return ProductDto(
+        id = product.id,
+        product_name = product.name,
+        brands = product.brands,
+        image_url = product.imageUrl,
+        ingridients_text_debug = product.ingredients,
+        nutriments = mapNutrimentsDto(product.nutriments)
+    )
+}
+
+fun mapNutrimentsDto(nutriments: Nutriments?): NutrimentsDto? {
+    if (nutriments == null) return null
+    return NutrimentsDto(
+        energy_100g = nutriments.energy,
+        salt_100g = nutriments.salt,
+        carbohydrates_100g = nutriments.carbohydrates,
+        fiber_100g = nutriments.fiber,
+        sugars_100g = nutriments.sugars,
+        proteins_100g = nutriments.proteins,
+        fat_100g = nutriments.fat
     )
 }

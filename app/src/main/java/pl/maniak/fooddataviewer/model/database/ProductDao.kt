@@ -15,4 +15,8 @@ abstract class ProductDao {
 
     @Insert
     abstract fun insert(productDto: ProductDto): Completable
+
+    @Query("DELETE FROM ProductDto WHERE id = :barcode")
+    abstract fun delete(barcode: String): Completable
+
 }
