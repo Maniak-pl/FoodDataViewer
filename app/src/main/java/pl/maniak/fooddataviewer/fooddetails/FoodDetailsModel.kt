@@ -1,3 +1,5 @@
 package pl.maniak.fooddataviewer.fooddetails
 
-data class FoodDetailsModel(val activity: Boolean = false)
+import pl.maniak.fooddataviewer.model.Product
+
+data class FoodDetailsModel(val activity: Boolean = false, val product: Product? = null, val error: Boolean = false)

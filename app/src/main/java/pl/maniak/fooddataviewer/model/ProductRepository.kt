@@ -1,11 +1,26 @@
 package pl.maniak.fooddataviewer.model
 
 import io.reactivex.Single
+import pl.maniak.fooddataviewer.model.database.ProductDao
 import pl.maniak.fooddataviewer.model.dto.NutrimentsDto
 import pl.maniak.fooddataviewer.model.dto.ProductDto
 import javax.inject.Inject
 
-class ProductRepository @Inject constructor(private val productService: ProductService) {
+class ProductRepository @Inject constructor(
+    private val productService: ProductService,
+    private val productDao: ProductDao
+) {
+
+    fun loadProduct(barcode: String): Single<Product> {
+        return getProductFromDatabase(barcode)
+            .onErrorResumeNext { getProductFromApi(barcode) }
+    }
+
+    private fun getProductFromDatabase(barcode: String): Single<Product> {
+        return productDao.getProduct(barcode)
+            .map { productDto -> mapProduct(dto = productDto, saved = true) }
+    }
+
     fun getProductFromApi(barcode: String): Single<Product> {
         return productService.getProduct(barcode)
             .map { response -> mapProduct(dto = response.product, saved = false) }
