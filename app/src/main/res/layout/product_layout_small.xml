@@ -47,7 +47,7 @@
         android:layout_marginTop="4dp"
         android:text="@string/scan_carbs"
         android:textAppearance="?attr/textAppearanceBody1"
-        android:textColor="?attr/colorError"
+        android:textColor="@color/red"
         app:layout_constraintStart_toEndOf="@id/productImageView"
         app:layout_constraintTop_toBottomOf="@id/brandNameView" />
 
@@ -58,7 +58,7 @@
         android:layout_marginStart="2dp"
         android:text="100.0g"
         android:textAppearance="?attr/textAppearanceBody1"
-        android:textColor="?attr/colorError"
+        android:textColor="@color/red"
         app:layout_constraintStart_toEndOf="@id/carbohydratesLabel"
         app:layout_constraintTop_toTopOf="@id/carbohydratesLabel" />
 
@@ -70,7 +70,7 @@
         android:layout_marginTop="4dp"
         android:text="@string/scan_fat"
         android:textAppearance="?attr/textAppearanceBody1"
-        android:textColor="?attr/colorPrimary"
+        android:textColor="@color/orange"
         app:layout_constraintStart_toEndOf="@id/carbsValueView"
         app:layout_constraintTop_toBottomOf="@id/brandNameView" />
 
@@ -81,7 +81,7 @@
         android:layout_marginStart="2dp"
         android:text="100.0g"
         android:textAppearance="?attr/textAppearanceBody1"
-        android:textColor="?attr/colorPrimary"
+        android:textColor="@color/orange"
         app:layout_constraintStart_toEndOf="@id/fatLabel"
         app:layout_constraintTop_toTopOf="@id/carbohydratesLabel" />
 
@@ -93,7 +93,7 @@
         android:layout_marginTop="4dp"
         android:text="@string/scan_protein"
         android:textAppearance="?attr/textAppearanceBody1"
-        android:textColor="?attr/colorAccent"
+        android:textColor="@color/yellow"
         app:layout_constraintStart_toEndOf="@id/productImageView"
         app:layout_constraintTop_toBottomOf="@id/carbohydratesLabel" />
 
@@ -105,7 +105,7 @@
         android:layout_marginTop="4dp"
         android:text="100.0g"
         android:textAppearance="?attr/textAppearanceBody1"
-        android:textColor="?attr/colorAccent"
+        android:textColor="@color/yellow"
         app:layout_constraintStart_toEndOf="@id/proteinLabel"
         app:layout_constraintTop_toBottomOf="@id/carbohydratesLabel" />
 
@@ -117,7 +117,7 @@
         android:layout_marginTop="4dp"
         android:text="@string/scan_energy"
         android:textAppearance="?attr/textAppearanceBody1"
-        android:textColor="?attr/colorSecondary"
+        android:textColor="@color/blue"
         app:layout_constraintStart_toEndOf="@id/productImageView"
         app:layout_constraintTop_toBottomOf="@id/proteinValueView" />
 
@@ -129,7 +129,7 @@
         android:layout_marginTop="4dp"
         android:text="100 kcal"
         android:textAppearance="?attr/textAppearanceBody1"
-        android:textColor="?attr/colorSecondary"
+        android:textColor="@color/blue"
         app:layout_constraintStart_toEndOf="@id/energyLabel"
         app:layout_constraintTop_toBottomOf="@id/proteinLabel" />
 

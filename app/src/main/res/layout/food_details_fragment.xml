@@ -86,7 +86,7 @@
                 android:layout_marginTop="4dp"
                 android:text="@string/scan_energy"
                 android:textAppearance="?attr/textAppearanceBody1"
-                android:textColor="?attr/colorSecondary"
+                android:textColor="@color/blue"
                 app:layout_constraintStart_toStartOf="@id/startGuideline"
                 app:layout_constraintTop_toBottomOf="@id/barcodeView" />
 
@@ -98,7 +98,7 @@
                 android:layout_marginTop="4dp"
                 android:text="100 kcal"
                 android:textAppearance="?attr/textAppearanceBody1"
-                android:textColor="?attr/colorSecondary"
+                android:textColor="@color/blue"
                 app:layout_constraintStart_toEndOf="@id/energyLabel"
                 app:layout_constraintTop_toBottomOf="@id/barcodeView" />
 
@@ -109,19 +109,19 @@
                 android:layout_marginTop="4dp"
                 android:text="@string/scan_carbs"
                 android:textAppearance="?attr/textAppearanceBody1"
-                android:textColor="?attr/colorError"
+                android:textColor="@color/red"
                 app:layout_constraintStart_toStartOf="@id/startGuideline"
                 app:layout_constraintTop_toBottomOf="@id/energyLabel" />
 
             <TextView
-                android:id="@+id/carbsValueView"
+                android:id="@+id/carbsValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="2dp"
                 android:layout_marginTop="4dp"
                 android:text="100.0g"
                 android:textAppearance="?attr/textAppearanceBody1"
-                android:textColor="?attr/colorError"
+                android:textColor="@color/red"
                 app:layout_constraintStart_toEndOf="@id/carbsLabel"
                 app:layout_constraintTop_toBottomOf="@id/energyLabel" />
 
@@ -130,21 +130,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
+                android:layout_marginStart="2dp"
                 android:text="@string/scan_fat"
                 android:textAppearance="?attr/textAppearanceBody1"
-                android:textColor="?attr/colorPrimary"
-                app:layout_constraintStart_toEndOf="@id/carbsValueView"
+                android:textColor="@color/orange"
+                app:layout_constraintStart_toEndOf="@id/carbsValue"
                 app:layout_constraintTop_toBottomOf="@id/energyLabel" />
 
             <TextView
-                android:id="@+id/fatValueView"
+                android:id="@+id/fatValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="2dp"
                 android:layout_marginTop="4dp"
                 android:text="100.0g"
                 android:textAppearance="?attr/textAppearanceBody1"
-                android:textColor="?attr/colorPrimary"
+                android:textColor="@color/orange"
                 app:layout_constraintStart_toEndOf="@id/fatLabel"
                 app:layout_constraintTop_toBottomOf="@id/energyLabel" />
 
@@ -153,10 +154,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
+                android:layout_marginStart="2dp"
                 android:text="@string/scan_protein"
                 android:textAppearance="?attr/textAppearanceBody1"
-                android:textColor="?attr/colorAccent"
-                app:layout_constraintStart_toEndOf="@id/fatValueView"
+                android:textColor="@color/yellow"
+                app:layout_constraintStart_toEndOf="@id/fatValue"
                 app:layout_constraintTop_toBottomOf="@id/energyLabel" />
 
             <TextView
@@ -167,7 +169,7 @@
                 android:layout_marginTop="4dp"
                 android:text="100.0g"
                 android:textAppearance="?attr/textAppearanceBody1"
-                android:textColor="?attr/colorAccent"
+                android:textColor="@color/yellow"
                 app:layout_constraintStart_toEndOf="@id/proteinLabel"
                 app:layout_constraintTop_toBottomOf="@id/energyLabel" />
 
@@ -176,7 +178,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:barrierDirection="bottom"
-                app:constraint_referenced_ids="proteinLabel,proteinValue,fatLabel,fatValueView,carbsLabel,carbsValueView" />
+                app:constraint_referenced_ids="proteinLabel, proteinValue, fatLabel, fatValue, carbsLabel, carbsValue" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/startGuideline"
@@ -193,7 +195,7 @@
                 app:layout_constraintGuide_end="16dp" />
 
             <TextView
-                android:id="@+id/ingridientsText"
+                android:id="@+id/ingredientsText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
