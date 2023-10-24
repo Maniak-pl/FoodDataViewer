@@ -1,4 +1,4 @@
-package pl.maniak.fooddataviewer
+package pl.maniak.fooddataviewer.scan
 
 import com.spotify.mobius.test.NextMatchers.*
 import com.spotify.mobius.test.UpdateSpec
@@ -8,7 +8,6 @@ import io.fotoapparat.preview.Frame
 import org.junit.Before
 import org.junit.Test
 import pl.maniak.fooddataviewer.model.Product
-import pl.maniak.fooddataviewer.scan.*
 
 class ScanUpdateTest {
     private lateinit var updateSpec: UpdateSpec<ScanModel, ScanEvent, ScanEffect>
