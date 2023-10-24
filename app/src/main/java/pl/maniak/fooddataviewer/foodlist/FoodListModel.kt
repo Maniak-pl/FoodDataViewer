@@ -1,3 +1,7 @@
 package pl.maniak.fooddataviewer.foodlist
 
-object FoodListModel
+import pl.maniak.fooddataviewer.model.Product
+
+data class FoodListModel(
+    val products: List<Product> = listOf()
+)

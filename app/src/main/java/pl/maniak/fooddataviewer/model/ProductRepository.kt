@@ -1,6 +1,7 @@
 package pl.maniak.fooddataviewer.model
 
 import io.reactivex.Completable
+import io.reactivex.Observable
 import io.reactivex.Single
 import pl.maniak.fooddataviewer.model.database.ProductDao
 import pl.maniak.fooddataviewer.model.dto.NutrimentsDto
@@ -11,6 +12,10 @@ class ProductRepository @Inject constructor(
     private val productService: ProductService,
     private val productDao: ProductDao
 ) {
+    fun getProducts(): Observable<List<Product>> {
+        return productDao.getProducts()
+            .map { it.map { dto -> mapProduct(dto, saved = true) } }
+    }
 
     fun loadProduct(barcode: String): Single<Product> {
         return getProductFromDatabase(barcode)
