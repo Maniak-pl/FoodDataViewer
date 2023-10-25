@@ -19,9 +19,16 @@ fun foodDetailsUpdate(
         is ErrorLoadingProduct -> next(model.copy(activity = false, error = true))
         is ActionButtonClicked -> if (model.product != null) {
             if (model.product.saved) {
-                dispatch(setOf(DeleteProduct(model.product.id)))
+                next(
+                    model.copy(product = model.product.copy(saved = !model.product.saved)),
+                    setOf(DeleteProduct(model.product.id))
+                )
+
             } else {
-                dispatch(setOf(SaveProduct(model.product)))
+                next(
+                    model.copy(product = model.product.copy(saved = !model.product.saved)),
+                    setOf(SaveProduct(model.product))
+                )
             }
         } else {
             noChange()
