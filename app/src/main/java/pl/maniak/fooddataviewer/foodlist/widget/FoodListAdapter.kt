@@ -5,20 +5,28 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.jakewharton.rxbinding3.view.clicks
+import io.reactivex.Observable
+import io.reactivex.subjects.PublishSubject
 import kotlinx.android.extensions.LayoutContainer
 import pl.maniak.fooddataviewer.R
 import pl.maniak.fooddataviewer.model.Product
 
-class FoodListAdapter: ListAdapter<Product, FoodListProductViewHolder>(DiffUtilCallback())  {
+class FoodListAdapter : ListAdapter<Product, FoodListProductViewHolder>(DiffUtilCallback()) {
+
+    private val productClicksSubject = PublishSubject.create<Int>()
+    val productClicks: Observable<Product> = productClicksSubject
+        .map { position -> getItem(position) }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FoodListProductViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(viewType, parent, false)
-        return FoodListProductViewHolder(view)
+        return FoodListProductViewHolder(view, productClicksSubject)
     }
 
     override fun onBindViewHolder(holder: FoodListProductViewHolder, position: Int) {
@@ -30,7 +38,7 @@ class FoodListAdapter: ListAdapter<Product, FoodListProductViewHolder>(DiffUtilC
     }
 }
 
-private class DiffUtilCallback: DiffUtil.ItemCallback<Product>() {
+private class DiffUtilCallback : DiffUtil.ItemCallback<Product>() {
 
     override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean {
         return oldItem == newItem
@@ -42,7 +50,10 @@ private class DiffUtilCallback: DiffUtil.ItemCallback<Product>() {
 
 }
 
-class FoodListProductViewHolder(override val containerView: View): RecyclerView.ViewHolder(containerView), LayoutContainer {
+class FoodListProductViewHolder(
+    override val containerView: View,
+    private val productClicksSubject: PublishSubject<Int>
+) : RecyclerView.ViewHolder(containerView), LayoutContainer {
 
     fun bind(product: Product) {
         with(containerView) {
@@ -54,6 +65,7 @@ class FoodListProductViewHolder(override val containerView: View): RecyclerView.
             val fatValueView = findViewById<TextView>(R.id.fatValueView)
             val proteinValueView = findViewById<TextView>(R.id.proteinValueView)
             val productImageView = findViewById<ImageView>(R.id.productImageView)
+            val productCard = findViewById<CardView>(R.id.productCard)
 
             productNameView.text = product.name
             brandNameView.text = product.brands
@@ -66,6 +78,10 @@ class FoodListProductViewHolder(override val containerView: View): RecyclerView.
                 .load(product.imageUrl)
                 .fitCenter()
                 .into(productImageView)
+
+            productCard.clicks()
+                .map { adapterPosition }
+                .subscribe(productClicksSubject)
         }
     }
 }
