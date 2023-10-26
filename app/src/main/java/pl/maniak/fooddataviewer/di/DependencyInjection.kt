@@ -14,6 +14,7 @@ import pl.maniak.fooddataviewer.foodlist.FoodListViewModel
 import pl.maniak.fooddataviewer.model.ProductService
 import pl.maniak.fooddataviewer.model.database.ApplicationDatabase
 import pl.maniak.fooddataviewer.scan.ScanViewModel
+import pl.maniak.fooddataviewer.scan.utils.FrameProcessorOnSubscribe
 import pl.maniak.fooddataviewer.utils.ActivityService
 import pl.maniak.fooddataviewer.utils.Navigator
 import retrofit2.Retrofit
@@ -35,13 +36,19 @@ internal annotation class ViewModelKey(val value: KClass<out ViewModel>)
 @Retention(AnnotationRetention.RUNTIME)
 internal annotation class ApiBaseUrl
 
-@Singleton
-@Component(modules = [ApplicationModule::class, ViewModelModule::class, ApiModule::class, DatabaseModule::class])
+
 interface ApplicationComponent {
 
     fun viewModelFactory(): ViewModelProvider.Factory
 
     fun activityService(): ActivityService
+
+    fun frameProcessorOnSubscribe(): FrameProcessorOnSubscribe
+}
+
+@Singleton
+@Component(modules = [ApplicationModule::class, ViewModelModule::class, ApiModule::class, DatabaseModule::class, RealModule::class])
+interface RealComponent : ApplicationComponent {
 
     @Component.Builder
     interface Builder {
@@ -49,7 +56,7 @@ interface ApplicationComponent {
         @BindsInstance
         fun context(context: Context): Builder
 
-        fun build(): ApplicationComponent
+        fun build(): RealComponent
     }
 }
 
@@ -149,4 +156,13 @@ object DatabaseModule {
     @Singleton
     @JvmStatic
     fun productDao(applicationDatabase: ApplicationDatabase) = applicationDatabase.productDao()
+}
+
+@Module
+object RealModule {
+
+        @Provides
+        @Singleton
+        @JvmStatic
+        fun frameProcessorOnSubscribe(): FrameProcessorOnSubscribe = FrameProcessorOnSubscribe()
 }

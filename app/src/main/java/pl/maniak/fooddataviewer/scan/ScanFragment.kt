@@ -27,16 +27,13 @@ import com.google.firebase.ml.vision.common.FirebaseVisionImageMetadata
 import com.jakewharton.rxbinding3.view.clicks
 import io.fotoapparat.Fotoapparat
 import io.fotoapparat.configuration.CameraConfiguration
-import io.fotoapparat.preview.Frame
 import io.fotoapparat.selector.continuousFocusPicture
 import io.fotoapparat.selector.manualExposure
-import io.fotoapparat.util.FrameProcessor
 import io.fotoapparat.view.CameraView
 import io.reactivex.Observable
-import io.reactivex.ObservableEmitter
-import io.reactivex.ObservableOnSubscribe
 import io.reactivex.disposables.Disposable
 import pl.maniak.fooddataviewer.R
+import pl.maniak.fooddataviewer.component
 import pl.maniak.fooddataviewer.getViewModel
 
 class ScanFragment : Fragment(R.layout.scan_fragment) {
@@ -59,7 +56,7 @@ class ScanFragment : Fragment(R.layout.scan_fragment) {
         super.onViewCreated(view, savedInstanceState)
 
         val cameraView = view.findViewById<CameraView>(R.id.cameraView)
-        val frameProcessor = FrameProcessorOnSubscribe()
+        val frameProcessor = requireContext().component.frameProcessorOnSubscribe()
 
         fotoapparat = Fotoapparat(
             context = requireContext(),
@@ -204,16 +201,3 @@ class ScanFragment : Fragment(R.layout.scan_fragment) {
         return result
     }
 }
-
-private class FrameProcessorOnSubscribe : ObservableOnSubscribe<Frame>, FrameProcessor {
-    private var emitter: ObservableEmitter<Frame>? = null
-    override fun subscribe(emitter: ObservableEmitter<Frame>) {
-        emitter.setCancellable { this.emitter = null }
-        this.emitter = emitter
-    }
-
-    override fun invoke(frame: Frame) {
-        emitter?.onNext(frame)
-    }
-}
-

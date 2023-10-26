@@ -23,6 +23,25 @@
           "other_platform_oauth_client": []
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:706992647793:android:9f12d0a6871f373a4675d0",
+        "android_client_info": {
+          "package_name": "pl.maniak.fooddataviewer.instrumented"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAybHAYYGneN33YacmRrV6x6qUcSkBsWSs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
     }
   ],
   "configuration_version": "1"

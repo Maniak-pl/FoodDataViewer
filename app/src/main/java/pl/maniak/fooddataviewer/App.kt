@@ -6,14 +6,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProviders
 import pl.maniak.fooddataviewer.di.ApplicationComponent
-import pl.maniak.fooddataviewer.di.DaggerApplicationComponent
+import pl.maniak.fooddataviewer.di.DaggerRealComponent
 import kotlin.reflect.KClass
 
 open class App : Application() {
 
-    val component by lazy {
-        DaggerApplicationComponent
-            .builder()
+    open val component: ApplicationComponent by lazy {
+        DaggerRealComponent.builder()
             .context(this)
             .build()
     }
