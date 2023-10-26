@@ -20,7 +20,17 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    testBuildType "instrumented"
+
+    testOptions {
+        execution 'ANDROIDX_TEST_ORCHESTRATOR'
+    }
+
     buildTypes {
+        instrumented {
+            initWith debug
+            applicationIdSuffix ".instrumented"
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -80,8 +90,15 @@ dependencies {
     testImplementation "junit:junit:4.13.2"
     testImplementation 'com.spotify.mobius:mobius-test:1.2.2'
 
+    // AndroidX Test - Instrumented testing
     androidTestImplementation "androidx.test:runner:1.5.2"
     androidTestImplementation "androidx.test.espresso:espresso-core:3.5.1"
+    androidTestImplementation "androidx.test:rules:1.5.2"
+    instrumentedImplementation "androidx.test:core:1.5.2"
+    instrumentedImplementation "androidx.fragment:fragment-testing:1.6.1"
+    instrumentedImplementation "com.squareup.okhttp3:mockwebserver:4.11.0"
+    kaptAndroidTest "com.google.dagger:dagger-compiler:2.23.1"
+
 }
 
 apply plugin: 'com.google.gms.google-services'

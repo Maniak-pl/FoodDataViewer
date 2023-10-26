@@ -9,7 +9,7 @@ import pl.maniak.fooddataviewer.di.ApplicationComponent
 import pl.maniak.fooddataviewer.di.DaggerApplicationComponent
 import kotlin.reflect.KClass
 
-class App : Application() {
+open class App : Application() {
 
     val component by lazy {
         DaggerApplicationComponent
