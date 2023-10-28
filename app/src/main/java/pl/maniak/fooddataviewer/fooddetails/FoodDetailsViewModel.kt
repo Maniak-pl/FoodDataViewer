@@ -8,6 +8,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import pl.maniak.fooddataviewer.MobiusVM
 import pl.maniak.fooddataviewer.model.ProductRepository
+import pl.maniak.fooddataviewer.utils.IdlingResource
 import javax.inject.Inject
 
 fun foodDetailsUpdate(
@@ -37,7 +38,8 @@ fun foodDetailsUpdate(
 }
 
 class FoodDetailsViewModel @Inject constructor(
-    productRepository: ProductRepository
+    productRepository: ProductRepository,
+    idlingResource: IdlingResource
 ) : MobiusVM<FoodDetailsModel, FoodDetailsEvent, FoodDetailsEffect>(
     "FoodDetailsViewModel",
     Update(::foodDetailsUpdate),
@@ -49,7 +51,9 @@ class FoodDetailsViewModel @Inject constructor(
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .toObservable()
-                    .map { product -> ProductLoaded(product) as FoodDetailsEvent }
+                    .map { product ->
+                        idlingResource.decrement()
+                        ProductLoaded(product) as FoodDetailsEvent }
                     .onErrorReturn { ErrorLoadingProduct }
             }
         }
