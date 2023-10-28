@@ -5,6 +5,7 @@ import dagger.BindsInstance
 import dagger.Component
 import dagger.Module
 import dagger.Provides
+import pl.maniak.fooddataviewer.model.database.ProductDao
 import pl.maniak.fooddataviewer.scan.TestFrameProcessorOnSubscribe
 import pl.maniak.fooddataviewer.scan.utils.FrameProcessorOnSubscribe
 import pl.maniak.fooddataviewer.utils.IdlingResource
@@ -22,6 +23,9 @@ interface TestComponent : ApplicationComponent {
 
         @BindsInstance
         fun context(context: Context): Builder
+
+        @BindsInstance
+        fun productDao(productDao: ProductDao): Builder
 
         fun build(): TestComponent
     }

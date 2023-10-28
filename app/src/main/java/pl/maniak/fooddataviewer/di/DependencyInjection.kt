@@ -152,11 +152,6 @@ object DatabaseModule {
             "food-database"
         ).build()
     }
-
-    @Provides
-    @Singleton
-    @JvmStatic
-    fun productDao(applicationDatabase: ApplicationDatabase) = applicationDatabase.productDao()
 }
 
 @Module
@@ -176,4 +171,8 @@ object RealModule {
         override fun decrement() {}
     }
 
+    @Provides
+    @Singleton
+    @JvmStatic
+    fun productDao(database: ApplicationDatabase) = database.productDao()
 }
