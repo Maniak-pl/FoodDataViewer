@@ -1,7 +1,6 @@
 package pl.maniak.fooddataviewer.foodlist.widget
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
@@ -13,8 +12,8 @@ import com.bumptech.glide.Glide
 import com.jakewharton.rxbinding3.view.clicks
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
-import kotlinx.android.extensions.LayoutContainer
 import pl.maniak.fooddataviewer.R
+import pl.maniak.fooddataviewer.databinding.FoodListProductItemBinding
 import pl.maniak.fooddataviewer.model.Product
 
 class FoodListAdapter : ListAdapter<Product, FoodListProductViewHolder>(DiffUtilCallback()) {
@@ -24,9 +23,8 @@ class FoodListAdapter : ListAdapter<Product, FoodListProductViewHolder>(DiffUtil
         .map { position -> getItem(position) }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FoodListProductViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(viewType, parent, false)
-        return FoodListProductViewHolder(view, productClicksSubject)
+        val binding = FoodListProductItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return FoodListProductViewHolder(binding, productClicksSubject)
     }
 
     override fun onBindViewHolder(holder: FoodListProductViewHolder, position: Int) {
@@ -51,12 +49,12 @@ private class DiffUtilCallback : DiffUtil.ItemCallback<Product>() {
 }
 
 class FoodListProductViewHolder(
-    override val containerView: View,
+    private val binding: FoodListProductItemBinding,
     private val productClicksSubject: PublishSubject<Int>
-) : RecyclerView.ViewHolder(containerView), LayoutContainer {
+) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(product: Product) {
-        with(containerView) {
+        with(binding.root) {
             val context = context
             val productNameView = findViewById<TextView>(R.id.productNameView)
             val brandNameView = findViewById<TextView>(R.id.brandNameView)

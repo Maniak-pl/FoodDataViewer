@@ -16,6 +16,7 @@ import pl.maniak.fooddataviewer.model.database.ApplicationDatabase
 import pl.maniak.fooddataviewer.scan.ScanViewModel
 import pl.maniak.fooddataviewer.scan.utils.FrameProcessorOnSubscribe
 import pl.maniak.fooddataviewer.utils.ActivityService
+import pl.maniak.fooddataviewer.utils.IdlingResource
 import pl.maniak.fooddataviewer.utils.Navigator
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -161,8 +162,18 @@ object DatabaseModule {
 @Module
 object RealModule {
 
-        @Provides
-        @Singleton
-        @JvmStatic
-        fun frameProcessorOnSubscribe(): FrameProcessorOnSubscribe = FrameProcessorOnSubscribe()
+    @Provides
+    @Singleton
+    @JvmStatic
+    fun frameProcessorOnSubscribe(): FrameProcessorOnSubscribe = FrameProcessorOnSubscribe()
+
+    @Provides
+    @Singleton
+    @JvmStatic
+    fun idlingResource(): IdlingResource = object : IdlingResource {
+        override fun increment() {}
+
+        override fun decrement() {}
+    }
+
 }
