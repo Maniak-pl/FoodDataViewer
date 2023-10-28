@@ -1,7 +1,12 @@
 package pl.maniak.fooddataviewer.scan
 
 import androidx.fragment.app.testing.launchFragmentInContainer
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.rule.GrantPermissionRule
+import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import pl.maniak.fooddataviewer.R
 import org.junit.Rule
@@ -24,7 +29,14 @@ class ScanFragmentTest {
 
         scenario.onFragment { fragment ->
             (fragment.activity!!.component.frameProcessorOnSubscribe() as TestFrameProcessorOnSubscribe)
-
+                .testFrame = getFrame(fragment.requireContext(), "coke.jpg")
         }
+
+        val mockResponse = MockResponse()
+            .setBody(json)
+            .setResponseCode(200)
+        mockWebServer.enqueue(mockResponse)
+        mockWebServer.start(8500)
+        onView(withId(R.id.productView)).check(matches(isDisplayed()))
     }
 }
