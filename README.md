@@ -1,8 +1,8 @@
 # Food Data Viewer
 
-<img src="screen/icon.png" alt="Icon" width="20%" /> 
-
 This is Udemy [Android Redux/MVI pattern. Tests. Dependency Injection.](https://www.udemy.com/course/android-mvi-pattern-tests-dependency-injection/)  training.
+
+<img src="screen/course.jpg" alt="Icon" /> 
 
 ## Getting Started
 
@@ -26,6 +26,12 @@ This project uses the following dependencies
 - [Junit4](https://github.com/junit-team/junit4)
 - [Espresso](https://developer.android.com/training/testing/espresso)
 
+## Icon
+
+<img src="screen/icon.png" alt="Icon" width="20%" /> 
+
 ## Screenshots
 
-<img src="screen/screen_2.png" alt="Screenshot 1" width="40%" /> 
+<img src="screen/screen_1.png" alt="Screenshot 1" width="25%" />
+<img src="screen/screen_2.png" alt="Screenshot 1" width="25%" />
+<img src="screen/screen_3.png" alt="Screenshot 1" width="25%" /> 
