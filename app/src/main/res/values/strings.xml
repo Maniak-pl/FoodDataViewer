@@ -20,4 +20,11 @@
     <string name="food_details_macro_value">%1$.1fg</string>
     <string name="food_details_ingridients">Ingridients: %1$s</string>
 
+    <string name="food_list_carbs">Carbs:</string>
+    <string name="food_list_protein">Protein:</string>
+    <string name="food_list_fat">Fat:</string>
+    <string name="food_list_energy">Energy:</string>
+    <string name="food_list_energy_value">%1$d kcal</string>
+    <string name="food_list_macro_value">%1$.1fg</string>
+
 </resources>

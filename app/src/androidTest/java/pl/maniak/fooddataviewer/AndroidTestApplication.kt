@@ -10,10 +10,10 @@ import pl.maniak.fooddataviewer.model.dto.ProductDto
 
 class AndroidTestApplication : App() {
 
-    val productDaoSubject = PublishSubject.create<List<ProductDto>>()
+    val productDtoSubject = PublishSubject.create<List<ProductDto>>()
     private val productDao: ProductDao = object : ProductDao() {
         override fun getProducts(): Observable<List<ProductDto>> {
-            return productDaoSubject
+            return productDtoSubject
         }
 
         override fun getProduct(barcode: String): Single<ProductDto> {
