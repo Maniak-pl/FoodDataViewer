@@ -28,7 +28,10 @@ class ProcessBarcodeHandler @Inject constructor(
                 }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnError { error -> Log.e("ProcessBarcodeHandler", error.message, error) }
+                .doOnError { error ->
+                    idlingResource.decrement()
+                    Log.e("ProcessBarcodeHandler", error.message, error)
+                }
                 .onErrorReturnItem(BarcodeError)
                 .toObservable()
         }

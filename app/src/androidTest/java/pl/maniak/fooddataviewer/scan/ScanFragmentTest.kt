@@ -1,15 +1,16 @@
 package pl.maniak.fooddataviewer.scan
 
 import android.Manifest
+import android.content.res.Resources
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
-import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.rule.GrantPermissionRule
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
+import org.hamcrest.CoreMatchers.not
 import org.junit.Rule
 import org.junit.Test
 import pl.maniak.fooddataviewer.R
@@ -33,7 +34,9 @@ class ScanFragmentTest {
         val scenario =
             launchFragmentInContainer<ScanFragment>(themeResId = R.style.Theme_FoodDataViewer)
         var idlingResource: TestIdlingResource? = null
+        var resources: Resources? = null
         scenario.onFragment { fragment ->
+            resources = fragment.resources
             idlingResource =
                 ((fragment.activity!!.component as TestComponent).idlingResource() as TestIdlingResource)
             IdlingRegistry.getInstance().register(idlingResource!!.countingIdlingResource)
@@ -49,6 +52,73 @@ class ScanFragmentTest {
         mockWebServer.start(8500)
 
         onView(withId(R.id.productView)).check(matches(isDisplayed()))
+        onView(withId(R.id.productNameView)).check(matches(withText("Coke Classic")))
+        onView(withId(R.id.brandNameView)).check(matches(withText("Coca-Cola")))
+        onView(withId(R.id.energyValueView)).check(
+            matches(
+                withText(
+                    resources!!.getString(
+                        R.string.scan_energy_value, 176
+
+                    )
+                )
+            )
+        )
+        onView(withId(R.id.carbsValueView)).check(
+            matches(
+                withText(
+                    resources!!.getString(
+                        R.string.scan_macro_value, 10.6
+
+                    )
+                )
+            )
+        )
+        onView(withId(R.id.fatValueView)).check(
+            matches(
+                withText(
+                    resources!!.getString(
+                        R.string.scan_macro_value, 0.0
+
+                    )
+                )
+            )
+        )
+        onView(withId(R.id.proteinValueView)).check(
+            matches(
+                withText(
+                    resources!!.getString(
+                        R.string.scan_macro_value, 0.0
+
+                    )
+                )
+            )
+        )
+
+        IdlingRegistry.getInstance().unregister(idlingResource!!.countingIdlingResource)
+    }
+
+    @Test
+    fun errorScanResult() {
+        val scenario =
+            launchFragmentInContainer<ScanFragment>(themeResId = R.style.Theme_FoodDataViewer)
+        var idlingResource: TestIdlingResource? = null
+        scenario.onFragment { fragment ->
+            idlingResource =
+                ((fragment.activity!!.component as TestComponent).idlingResource() as TestIdlingResource)
+            IdlingRegistry.getInstance().register(idlingResource!!.countingIdlingResource)
+            idlingResource!!.increment()
+            (fragment.activity!!.component.frameProcessorOnSubscribe() as TestFrameProcessorOnSubscribe)
+                .testFrame = getFrame(fragment.requireContext(), "coke.jpg")
+        }
+
+        val mockResponse = MockResponse()
+        mockResponse.setResponseCode(400)
+        mockWebServer.enqueue(response = mockResponse)
+        mockWebServer.start(8500)
+
+        onView(withId(R.id.productView)).check(matches(not(isDisplayed())))
+        onView(withId(R.id.errorView)).check(matches(isDisplayed()))
 
         IdlingRegistry.getInstance().unregister(idlingResource!!.countingIdlingResource)
     }
